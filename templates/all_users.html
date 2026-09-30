@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="result-header">
+
+    <span class="badge">
+        ADMIN DASHBOARD
+    </span>
+
+    <h1>
+        All Users
+    </h1>
+
+    <p>
+        View registered users and their generated plans.
+    </p>
+
+</section>
+
+
+{% if users %}
+
+<div class="table-container">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    User ID
+                </th>
+
+                <th>
+                    Name
+                </th>
+
+                <th>
+                    Age
+                </th>
+
+                <th>
+                    Weight
+                </th>
+
+                <th>
+                    Goal
+                </th>
+
+                <th>
+                    Intensity
+                </th>
+
+                <th>
+                    Original Plan
+                </th>
+
+                <th>
+                    Updated Plan
+                </th>
+
+                <th>
+                    Action
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for user in users %}
+
+            <tr>
+
+                <td>
+                    {{ user.user_id }}
+                </td>
+
+                <td>
+                    {{ user.name }}
+                </td>
+
+                <td>
+                    {{ user.age }}
+                </td>
+
+                <td>
+                    {{ user.weight }} kg
+                </td>
+
+                <td>
+                    {{ user.goal }}
+                </td>
+
+                <td>
+                    {{ user.intensity }}
+                </td>
+
+                <td>
+
+                    <details>
+
+                        <summary>
+                            View plan
+                        </summary>
+
+                        <pre class="small-plan">{{ user.original_plan }}</pre>
+
+                    </details>
+
+                </td>
+
+                <td>
+
+                    {% if user.updated_plan %}
+
+                    <details>
+
+                        <summary>
+                            View updated plan
+                        </summary>
+
+                        <pre class="small-plan">{{ user.updated_plan }}</pre>
+
+                    </details>
+
+                    {% else %}
+
+                    <span class="muted">
+                        Not updated
+                    </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    <form
+                        action="/delete-user/{{ user.user_id }}"
+                        method="POST"
+                        onsubmit="return confirm('Delete this user?');"
+                    >
+
+                        <button
+                            type="submit"
+                            class="delete-button"
+                        >
+                            Delete
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+<div class="card empty-state">
+
+    <h2>
+        No users yet
+    </h2>
+
+    <p>
+        Generate your first fitness plan from the home page.
+    </p>
+
+    <a
+        href="/"
+        class="primary-button inline-button"
+    >
+        Create Plan
+    </a>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
